@@ -2,6 +2,7 @@ import pandas as pd  # allow us to load in the csv file and work with it a lot e
 import csv
 # its a module builtin  into python helps with dates and time in this project
 from datetime import datetime
+from data_entry import get_amount, get_category, get_date, get_description
 
 
 class CSV:
@@ -20,7 +21,7 @@ class CSV:
             df.to_csv(cls.CSV_FILE, index=False)
     # to add some entries in the method
 
-    @classmethod
+    @classmethod  # adding the entry
     def add_entry(cls, date, amount, category, description):
         # use pandas/CSV Writer to write in to the file
         # to write the new entry we have to create the new entry in the file
@@ -36,7 +37,17 @@ class CSV:
             writer.writerow(new_entry)
         print("Entry added succesfully")
 
+# we have to write a function that can call the data in the inorder we want
 
-# to run this we can use
-CSV.intialized_csv()
-CSV.add_entry("20-07-2024", 125.65, "Income", "Salary")
+
+def add():
+    CSV.intialized_csv()
+    date = get_date(
+        "Enter the date of the transaction (dd-mm-yyyy) or enter the today's date: ", allow_default=True, )
+    amount = get_amount()
+    category = get_category()
+    description = get_description()
+    CSV.add_entry(date, amount, category, description)
+
+
+add()
