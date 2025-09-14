@@ -1,0 +1,24 @@
+import pandas as pd  # allow us to load in the csv file and work with it a lot eaiser
+import csv
+# its a module builtin  into python helps with dates and time in this project
+from datetime import datetime
+
+
+class CSV:
+    CSV_FILE = "finance_data.csv"  # this is a class variable assoiated with the class
+    # intialized the CSV file we read to read the existing one or we have to create one
+
+    @classmethod  # classmethod decorator. It will have the access to the class but not the instance. object oreinted programming
+    def intialized_csv(cls):  # creating a class method
+        try:
+            pd.read_csv(cls.CSV_FILE)
+        except FileNotFoundError:
+            # data frame is used acceess to load the data in the pandas from rows and columns
+            df = pd.DataFrame(
+                columns=["date", "amount", "category", "description"])
+            # to export dataframe to csv file is
+            df.to_csv(cls.CSV_FILE, index=False)
+
+
+# to run this we can use
+CSV.intialized_csv()
