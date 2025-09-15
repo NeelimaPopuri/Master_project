@@ -25,13 +25,25 @@ def fetch_books(page_number):
             'stock': stock,
             'rating': rating,
             'link': f"https://books.toscrape.com/catalogue/{link}"
-
         })
-    print(books)
+
+    return books
 
 
 def main():
-    fetch_books(1)
+    all_books = []
+    max_pages = 10
+
+    for current_page in range(1, max_pages + 1):
+        books_on_page = fetch_books(current_page)
+        all_books.extend(books_on_page)
+        print(f"Books on page {current_page}: {books_on_page}")
+
+    # Save data to file
+    with open('books.json', 'w') as f:
+        json.dump(all_books, f, indent=2)
+
+    print('Data is saved to books.json')
 
 
 if __name__ == "__main__":
