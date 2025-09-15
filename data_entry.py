@@ -1,7 +1,7 @@
 # using this data entry file to write all the functions related to getting information from the user
 from datetime import datetime
 
-date_format = "%d,%m,%Y"
+date_format = "%d-%m-%Y"
 CATEGORIES = {"I": "Income", "E": "Expense"}
 
 # recurrsive function
