@@ -14,11 +14,20 @@ def fetch_books(page_number):
     for book in book_elements:
         title = book.find('h3').find('a')['title']
         price = book.find('p', class_='price_color').text
-        stock = 'In Stock' if 'In Stock' in book.find(
-            'p', class_='instock availability').text else 'out of stock'
+        stock = 'In stock' if 'In stock' in book.find(
+            'p', class_='instock availability').text else 'Out of stock'
         rating = book.find('p', class_='star-rating')['class'][1]
         link = book.find('h3').find('a')['href']
-        print(link)
+
+        books.append({
+            'title': title,
+            'price': price,
+            'stock': stock,
+            'rating': rating,
+            'link': f"https://books.toscrape.com/catalogue/{link}"
+
+        })
+    print(books)
 
 
 def main():
