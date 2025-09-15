@@ -8,6 +8,7 @@ from data_entry import get_amount, get_category, get_date, get_description
 class CSV:
     CSV_FILE = "finance_data.csv"  # this is a class variable assoiated with the class
     COLUMNS = ["date", "amount", "category", "description"]
+    FORMAT = "%d-%m-%Y"
     # intialized the CSV file we read to read the existing one or we have to create one
 
     @classmethod  # classmethod decorator. It will have the access to the class but not the instance. object oreinted programming
@@ -37,9 +38,39 @@ class CSV:
             writer.writerow(new_entry)
         print("Entry added succesfully")
 
+    @classmethod  # helps with all transactions on a same date
+    def get_transactions(cls, start_date, end_date):
+        # convert all dates inside date column to datetime object
+        df = pd.read_csv(cls.CSV_FILE)
+        # give the access to all the values in the row
+        df["date"] = pd.to_datetime(df["date"], format=CSV.FORMAT)
+        start_date = datetime.strptime(start_date, CSV.FORMAT)
+        end_date = datetime.strptime(end_date, CSV.FORMAT)
+        # creating a mask is something that we can applt to the different rows inside of a dataframe see we should select the row or not
+        mask = (df["date"] >= start_date) & (df["date"] <= end_date)
+        # apply to every single row inside of dataframe and its going to filter the different elements
+        filtered_df = df.loc[mask]
+
+        if filtered_df.empty:
+            print('No transactions found in the given data range.')
+        else:
+            print(
+                f"Transactions from{start_date.strftime(CSV.FORMAT)} to {end_date.strftime(CSV.format)}")
+            print(filtered_df.to_string(index=False, formatters={
+                  "date": lambda x: x.strftime(CSV.FORMAT)}))
+            total_income = filtered_df[filtered_df["category"]
+                                       == "Income"]["amount"].sum()
+            total_expense = filtered_df[filtered_df["category"]
+                                        == "Expense"]["amount"].sum()
+            print("\nSummary:")
+            print(f"Total Income: ${total_income:.2f}")
+            print(f"Total Expense: ${total_expense:.2f}")
+            print(f"Net Savings: ${(total_income - total_expense):.2f}")
+
+        return filtered_df
+
+
 # we have to write a function that can call the data in the inorder we want
-
-
 def add():
     CSV.intialized_csv()
     date = get_date(
@@ -50,4 +81,25 @@ def add():
     CSV.add_entry(date, amount, category, description)
 
 
-add()
+def main():
+    while True:
+        print("\n1. Add a new transaction")
+        print("2. View transactions and summary within a date range")
+        print("3. Exit")
+        choice = input("Enter your choice (1-3):")
+
+        if choice == "1":
+            add()
+        elif choice == "2":
+            start_date = get_date("Enter the start date (dd-mm-yyyy):")
+            end_date = get_date("Enter the end date (dd-mm-yyyy):")
+            df = CSV.get_transactions(start_date, end_date)
+        elif choice == "3":
+            print("Exiting:")
+            break
+        else:
+            print("Invalid choice. Enter 1,2 or 3.")
+
+
+if __name__ == "__main__":
+    main()
