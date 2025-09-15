@@ -14,7 +14,9 @@ def fetch_books(page_number):
     for book in book_elements:
         title = book.find('h3').find('a')['title']
         price = book.find('p', class_='price_color').text
-        print(price)
+        stock = 'In Stock' if 'In Stock' in book.find(
+            'p', class_='instock availability').text else 'out of stock'
+        print(stock)
 
 
 def main():
