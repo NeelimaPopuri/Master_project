@@ -16,7 +16,8 @@ def fetch_books(page_number):
         price = book.find('p', class_='price_color').text
         stock = 'In Stock' if 'In Stock' in book.find(
             'p', class_='instock availability').text else 'out of stock'
-        print(stock)
+        rating = book.find('p', class_='star-rating')['class'][1]
+        print(rating)
 
 
 def main():
