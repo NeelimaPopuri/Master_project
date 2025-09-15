@@ -17,7 +17,8 @@ def fetch_books(page_number):
         stock = 'In Stock' if 'In Stock' in book.find(
             'p', class_='instock availability').text else 'out of stock'
         rating = book.find('p', class_='star-rating')['class'][1]
-        print(rating)
+        link = book.find('h3').find('a')['href']
+        print(link)
 
 
 def main():
