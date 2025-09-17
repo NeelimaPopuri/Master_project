@@ -1,5 +1,5 @@
 class Counter:
-    def __int__(self):
+    def __init__(self):
         self.value = 1
 
     def count_up(self):
@@ -10,6 +10,12 @@ class Counter:
 
     def __str__(self):  # shows us some object that humann readable
         return f"Count={self.value}"
+
+    def __add__(self, other):
+        # we are converting to str and add
+        if isinstance(other, Counter):
+            return self.value + other.value
+        raise Exception("Invalid type")
 
 
 count1 = Counter()
