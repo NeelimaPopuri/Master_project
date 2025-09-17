@@ -8,6 +8,9 @@ class Counter:
     def count_down(self):
         self.value -= 1
 
+    def __str__(self):  # shows us some object that humann readable
+        return f"Count={self.value}"
+
 
 count1 = Counter()
 count2 = Counter()
