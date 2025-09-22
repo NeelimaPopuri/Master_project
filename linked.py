@@ -5,7 +5,7 @@ class Node:
 
 
 class LinkedList:
-    def __int__(self):
+    def __init__(self):
         self.head = None
         self.size = 0
 
@@ -72,7 +72,7 @@ class LinkedList:
         while current:
             values.append(str(current.value))
             current = current.next
-        return " -> ".john(values) if values else "[]"
+        return " -> ".join(values) if values else "[]"
 
 
 # Example usage
